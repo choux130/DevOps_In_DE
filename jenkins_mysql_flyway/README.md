@@ -76,7 +76,7 @@ TBD
 
     docker network prune -f
     docker volume prune -f
-    ``
+    ```
 * Remove local git repo, `flyway_repo`
     ```sh
     cd ./jenkins_mysql_flyway/flyway_repo
