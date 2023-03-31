@@ -1,0 +1,30 @@
+/* Requires the Docker Pipeline plugin */
+pipeline {
+    agent any
+
+    // When doing docker ('flyway') in docker ('jenkins'), the volume path should map from the 'host' to 'flyway' path instead of from 'jenkins' to 'flyway'.
+    // https://stackoverflow.com/a/54397309
+    environment {
+        ABSOLUTE_WORKSPACE = sh(script: 'docker volume inspect --format \"{{ .Mountpoint }}\" devops_jenkinshome', ,returnStdout: true).trim()
+        PROJECT_FOLDER = sh(script: 'basename \"$PWD\"', ,returnStdout: true).trim()
+        PROJECT_FULLPATH = "${ABSOLUTE_WORKSPACE}/workspace/${PROJECT_FOLDER}"
+    }
+
+    stages {
+        stage('Inspect') { 
+            steps {
+                sh 'printenv'
+                sh 'ls -al'
+                sh 'docker --version'
+                sh 'docker compose version'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh 'docker compose up'
+                sh 'docker compose down'
+            }
+        }
+    }
+}

@@ -1,0 +1,33 @@
+version: '3.7'
+services:
+
+  gitbucket:
+    image: gitbucket/gitbucket:4.38.4
+    restart: always
+    networks:
+      - mynetwork    
+    ports:
+      - '8082:8080'
+    volumes:
+      - 'gitbucket:/var/gitbucket'
+
+  jenkins:
+    build:
+      context: ./jenkins
+    restart: always
+    networks:
+      - mynetwork
+    ports:
+      - '8080:8080'
+      - '50000:50000'
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      - 'jenkinshome:/var/jenkins_home'
+
+networks:
+  mynetwork:
+    external: true
+
+volumes:
+  gitbucket:
+  jenkinshome: 
