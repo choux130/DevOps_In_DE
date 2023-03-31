@@ -68,14 +68,20 @@ TBD
     ```
 
 # Clean up
-```sh
-cd ./jenkins_mysql_flyway
-docker compose -f docker-compose-db.yml -p db down
-docker compose -f docker-compose-jenkins.yml -p devops down
+* Remove all the containers
+    ```sh
+    cd ./jenkins_mysql_flyway
+    docker compose -f docker-compose-db.yml -p db down
+    docker compose -f docker-compose-jenkins.yml -p devops down
 
-docker network prune -f
-docker volume prune -f
-```
+    docker network prune -f
+    docker volume prune -f
+    ``
+* Remove local git repo, `flyway_repo`
+    ```sh
+    cd ./jenkins_mysql_flyway/flyway_repo
+    rm -rf .git
+    ```
 
 # Future works
 *  Figure it out how to automatically run the pipeline in jenkins by checking in the code to the repo in Gitbucket. For some reasons, the webhook was not working as expected. 
