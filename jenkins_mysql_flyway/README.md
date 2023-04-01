@@ -11,7 +11,7 @@ The goal for this poc project is to provide a solution to better track of databa
         * Flyway (alternative for Liquibase, alembic, sqitch, etc)
 
 <p align="center">
-<img src="jenkins_mysql_flyway.png" width="350" title="architecture_diagram">
+<img src="jenkins_mysql_flyway.png" width="600" title="architecture_diagram">
 </p>
 
 # Services Setup
