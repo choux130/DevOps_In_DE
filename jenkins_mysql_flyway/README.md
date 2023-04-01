@@ -10,7 +10,9 @@ The goal for this poc project is to provide a solution to better track of databa
     * Database migration tools
         * Flyway (alternative for Liquibase, alembic, sqitch, etc)
 
-![architecture](jenkins_mysql_flyway.png)
+<p align="center">
+<img src="jenkins_mysql_flyway.png" width="350" title="architecture_diagram">
+</p>
 
 # Services Setup
 1. Create network to connect all the services 
