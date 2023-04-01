@@ -1,6 +1,16 @@
 
 # Goal and Architecture
-TBD
+The goal for this poc project is to provide a solution to better track of database changes which has DDL (Data Definition Language). The following are the open source tools that are used,
+    * Git platform and DevOps
+        * Gitbucket (alternative for Github, Bitbucket, etc)
+        * Jenkins (alternative for Gitlab, Azure DevOps, etc)
+    * Database
+        * MySQL 
+        * phpMyAdmin 
+    * Database migration tools
+        * Flyway (alternative for Liquibase, alembic, sqitch, etc)
+
+=architecture graph= TBD 
 
 # Services Setup
 1. Create network to connect all the services 
@@ -46,7 +56,7 @@ TBD
     * ==short video== TBD
 
 # Trigger
-1. Move all `*.sql` files in `~/DevOps_In_DE/jenkins_mysql_flyway/flyway_repo/sql_to_deploy` to `~/DevOps_In_DE/jenkins_mysql_flyway/flyway_repo/sql` 
+1. Move all the `*.sql` files in `~/DevOps_In_DE/jenkins_mysql_flyway/flyway_repo/sql_to_deploy` to `~/DevOps_In_DE/jenkins_mysql_flyway/flyway_repo/sql` 
     ```sh
     mv ./sql_to_deploy/* ./sql
     ```
@@ -77,7 +87,7 @@ TBD
     docker network prune -f
     docker volume prune -f
     ```
-* Remove local git repo, `flyway_repo`
+* Remove the local git repo, `flyway_repo`
     ```sh
     cd ./jenkins_mysql_flyway/flyway_repo
     rm -rf .git
@@ -85,9 +95,14 @@ TBD
 
 # Future works
 *  Figure it out how to automatically run the pipeline in jenkins by checking in the code to the repo in Gitbucket. For some reasons, the webhook was not working as expected. 
-    * https://stackoverflow.com/questions/49574298/how-to-trigger-auto-build-in-jenkins-via-gitbuckets-webhook
-    * https://www.edureka.co/community/49753/auto-build-job-jenkins-there-change-code-github-repository
+    * [How to trigger auto build in Jenkins via Gitbucket's webhook?](https://stackoverflow.com/questions/49574298/how-to-trigger-auto-build-in-jenkins-via-gitbuckets-webhook)
+    * [How to auto build a job in jenkins if there is any change in code on Github repository](https://www.edureka.co/community/49753/auto-build-job-jenkins-there-change-code-github-repository)
+* Think about how to apply on the DML (Data Manipulation Language) changes.
+* Think about how to handle different environments.  
 
 # References
-* https://hackmamba.io/blog/2022/04/running-docker-in-a-jenkins-container/
-* https://writeitdifferently.com/postgresql/flyway/2020/03/15/running-postgresql-and-flyway-with-docker-compose.html
+* [Fear database changes? Get them under control with CI/CD](https://hackernoon.com/database-changes-can-be-scary-how-r1hy2gfe)
+* [DevOps tech: Database change management](https://cloud.google.com/architecture/devops/devops-tech-database-change-management)
+* [Jenkins in Docker: Running Docker in a Jenkins Container](https://hackmamba.io/blog/2022/04/running-docker-in-a-jenkins-container/)
+* [Running PostgreSQL and Flyway with Docker Compose](https://writeitdifferently.com/postgresql/flyway/2020/03/15/running-postgresql-and-flyway-with-docker-compose.html)
+* [Database version control: Getting started with Flyway](https://www.red-gate.com/simple-talk/devops/database-devops/database-version-control-getting-started-with-flyway/)
