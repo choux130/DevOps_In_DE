@@ -1,6 +1,6 @@
 
 # Goal and Architecture
-The goal for this poc project is to provide a solution to better track of database changes which has DDL (Data Definition Language). The following are the open source tools that are used,
+The goal for this poc project is about how to better track DDL (Data Definition Language) database changes. The following are the open source tools that are used.
     * Git platform and DevOps
         * Gitbucket (alternative for Github, Bitbucket, etc)
         * Jenkins (alternative for Gitlab, Azure DevOps, etc)
@@ -10,39 +10,40 @@ The goal for this poc project is to provide a solution to better track of databa
     * Database migration tools
         * Flyway (alternative for Liquibase, alembic, sqitch, etc)
 
+The architecture diagram and everything uses Docker containers.
 <p align="center">
 <img src="jenkins_mysql_flyway.png" width="600" title="architecture_diagram">
 </p>
 
 # Services Setup
-1. Create network to connect all the services 
+1. Create a network called `mynetwork` to connect all the services.
     ```sh
     docker network create mynetwork
     ```
 
-2. Run mysql and phpmyadmin containers
+2. Run the `mysql` and `phpmyadmin` containers.
     ```sh
     cd ./jenkins_mysql_flyway
     docker compose -f docker-compose-db.yml -p db up -d
     ```
-    * Log in to phpmyadmin 
+    * Log in `phpmyadmin`.
         * `http://localhost:8081`
         * username:password is `root:root` or `admin:admin`
 
-3. Run gitbucket and jenkins containers
+3. Run the `gitbucket` and `jenkins` containers.
     ```sh
     docker compose -f docker-compose-jenkins.yml -p devops up -d
     ```
-    * Log in to gitbucket
+    * Log in `gitbucket`.
         * `http://localhost:8082`
         * username:password is `root:root`
-    * Start jenkins
+    * Start `jenkins`.
         * `http://localhost:8080`
-        * Create admin user with username:password as `admin:admin`
-        * Install the Gitbucket plugin
+        * Create an admin user with username:password as `admin:admin`.
+        * Install the [Gitbucket](https://plugins.jenkins.io/gitbucket/) plugin.
 
-4. Create a repo, `flyway_repo`, in Gitbucket and check in all the files in `~/DevOps_In_DE/jenkins_mysql_flyway/flyway_repo` to the repo
-   * Run commands with `root:root` as username:password
+4. Create a repo called `flyway_repo`, in the `gitbucket` container through the ui and check in all the files in `~/DevOps_In_DE/jenkins_mysql_flyway/flyway_repo` to the repo.
+    * Run the commands with `root:root` as username:password.
         ```sh
         cd ./jenkins_mysql_flyway/flyway_repo
         git init
@@ -51,36 +52,37 @@ The goal for this poc project is to provide a solution to better track of databa
         git remote add origin http://localhost:8082/git/root/flyway_repo.git
         git push -u origin main
         ```
-    * ==short video== TBD
+    * ==short video (TBD)==
 
-5. Create a pipeline, `flyway_pipeline`, in Jenkins and have it connect to the repo, `flyway_repo`, in Gitbucket
-    * Repo url is `http://gitbucket:8080/git/root/flyway_repo.git`
-    * ==short video== TBD
+5. Create a pipeline called `flyway_pipeline` in the `jenkins` container through the ui and have it connect to the repo, `flyway_repo`.
+    * The repo URL is `http://gitbucket:8080/git/root/flyway_repo.git`.
+    * ==short video (TBD)==
 
 # Trigger
-1. Move all the `*.sql` files in `~/DevOps_In_DE/jenkins_mysql_flyway/flyway_repo/sql_to_deploy` to `~/DevOps_In_DE/jenkins_mysql_flyway/flyway_repo/sql` 
+1. Move all the `*.sql` files in `~/DevOps_In_DE/jenkins_mysql_flyway/flyway_repo/sql_to_deploy` to `~/DevOps_In_DE/jenkins_mysql_flyway/flyway_repo/sql`.
     ```sh
     mv ./sql_to_deploy/* ./sql
     ```
 
-2. Run flyway using the jenkins pipline, `flyway_pipeline`
-    * Check in code 
-        ```sh
-        git add .
-        git commit -m 'run versioned sql query'
-        git push
-        ```
-    * Manually trigger the pipeline by hit `Build Now`
-    * Check out database `db-name` to see if changes applied
-    * ==short video== TBD
+2. Check in the changes to the repo.
+    ```sh
+    git add .
+    git commit -m 'run versioned sql query'
+    git push
+    ```
 
-* If debugging is needed, try run flyway in local
+3. Run `flyway` using the Jenkins pipline, `flyway_pipeline`.
+    * Manually trigger the pipeline by hitting the `Build Now`.
+    * Check out the database called `db-name` through `phpmyadmin` ui to see if the changes are applied.
+    * ==short video (TBD)==
+
+* If debugging is needed, try run `flyway` in local using docker commands.
     ```sh
     export PROJECT_FULLPATH=. && docker compose up && docker compose down
     ```
 
 # Clean up
-* Remove all the containers
+* Remove all the containers.
     ```sh
     cd ./jenkins_mysql_flyway
     docker compose -f docker-compose-db.yml -p db down
@@ -89,19 +91,18 @@ The goal for this poc project is to provide a solution to better track of databa
     docker network prune -f
     docker volume prune -f
     ```
-* Remove the local git repo, `flyway_repo`
+* Remove the local git repo (`flyway_repo`).
     ```sh
     cd ./jenkins_mysql_flyway/flyway_repo
     rm -rf .git
     ```
-
 # Future works
-*  Figure it out how to automatically run the pipeline in jenkins by checking in the code to the repo in Gitbucket. For some reasons, the webhook was not working as expected. 
-    * [How to trigger auto build in Jenkins via Gitbucket's webhook?](https://stackoverflow.com/questions/49574298/how-to-trigger-auto-build-in-jenkins-via-gitbuckets-webhook)
-    * [How to auto build a job in jenkins if there is any change in code on Github repository](https://www.edureka.co/community/49753/auto-build-job-jenkins-there-change-code-github-repository)
-* Think about how to apply on the DML (Data Manipulation Language) changes.
-* Think about how to handle different environments.  
-
+* Figure out how to automatically run the pipeline in `jenkins` by checking in the code to the repo in `gitbucket`.
+    * For some reasons, the webhook was not working as expected this time. 
+        * [How to trigger auto build in Jenkins via Gitbucket's webhook?](https://stackoverflow.com/questions/49574298/how-to-trigger-auto-build-in-jenkins-via-gitbuckets-webhook)
+        * [How to auto build a job in jenkins if there is any change in code on Github repository](https://www.edureka.co/community/49753/auto-build-job-jenkins-there-change-code-github-repository)
+* Think about how to apply the DML (Data Manipulation Language) changes.
+* Think about how to handle different environments. 
 # References
 * [Fear database changes? Get them under control with CI/CD](https://hackernoon.com/database-changes-can-be-scary-how-r1hy2gfe)
 * [DevOps tech: Database change management](https://cloud.google.com/architecture/devops/devops-tech-database-change-management)
