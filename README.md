@@ -1,1 +1,1 @@
-This is a repo with many POC projects around DevOps and Data Engineering. 
+This is a repo with many POC projects around applying DevOps on Data Engineering. 
