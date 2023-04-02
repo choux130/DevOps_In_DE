@@ -1,14 +1,14 @@
 
 # Goal and Architecture
 The goal for this poc project is about how to better track DDL (Data Definition Language) database changes. The following are the open source tools that are used.
-    * Git platform and DevOps
-        * Gitbucket (alternative for Github, Bitbucket, etc)
-        * Jenkins (alternative for Gitlab, Azure DevOps, etc)
-    * Database
-        * MySQL 
-        * phpMyAdmin 
-    * Database migration tools
-        * Flyway (alternative for Liquibase, alembic, sqitch, etc)
+* Git platform and DevOps
+    * Gitbucket (alternative for Github, Bitbucket, etc)
+    * Jenkins (alternative for Gitlab, Azure DevOps, etc)
+* Database
+    * MySQL 
+    * phpMyAdmin 
+* Database migration tools
+    * Flyway (alternative for Liquibase, alembic, sqitch, etc)
 
 The architecture diagram and everything uses Docker containers.
 <p align="center">
