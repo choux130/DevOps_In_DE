@@ -97,12 +97,12 @@ The architecture diagram and everything uses Docker containers.
     rm -rf .git
     ```
 # Future works
-* Figure out how to automatically run the pipeline in `jenkins` by checking in the code to the repo in `gitbucket`.
-    * For some reasons, the webhook was not working as expected this time. 
+* Figure out how to automatically run the pipeline in `jenkins` by checking in the code to the repo in `gitbucket` instead of manually hitting `Build Now` on the ui.
+    * For some reasons, the webhook to connect `jenkins` and `gitbucket` was not working as expected this time.  
         * [How to trigger auto build in Jenkins via Gitbucket's webhook?](https://stackoverflow.com/questions/49574298/how-to-trigger-auto-build-in-jenkins-via-gitbuckets-webhook)
         * [How to auto build a job in jenkins if there is any change in code on Github repository](https://www.edureka.co/community/49753/auto-build-job-jenkins-there-change-code-github-repository)
-* Think about how to apply the DML (Data Manipulation Language) changes.
-* Think about how to handle different environments. 
+* Think about how to handle the DML (Data Manipulation Language) changes.
+
 # References
 * [Fear database changes? Get them under control with CI/CD](https://hackernoon.com/database-changes-can-be-scary-how-r1hy2gfe)
 * [DevOps tech: Database change management](https://cloud.google.com/architecture/devops/devops-tech-database-change-management)
