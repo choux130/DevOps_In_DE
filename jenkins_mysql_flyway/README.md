@@ -12,7 +12,7 @@ The goal for this poc project is about how to better track DDL (Data Definition 
 
 The architecture diagram and everything uses Docker containers.
 <p align="center">
-<img src="jenkins_mysql_flyway.png" width="600" title="architecture_diagram">
+<img src="img/jenkins_mysql_flyway.png" width="600" title="architecture_diagram">
 </p>
 
 # Services Setup
