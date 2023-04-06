@@ -23,7 +23,7 @@ The architecture diagram and everything uses Docker containers.
 
 2. Run the `mysql` and `phpmyadmin` containers.
     ```sh
-    cd ./jenkins_mysql_flyway
+    cd ./DBChanges_Flyway
     docker compose -f docker-compose-db.yml -p db up -d
     ```
     * Log in `phpmyadmin`.
@@ -42,24 +42,24 @@ The architecture diagram and everything uses Docker containers.
         * Create an admin user with username:password as `admin:admin`.
         * Install the [Gitbucket](https://plugins.jenkins.io/gitbucket/) plugin.
 
-4. Create a repo called `flyway_repo`, in the `gitbucket` container through the ui and check in all the files in `~/DevOps_In_DE/jenkins_mysql_flyway/flyway_repo` to the repo.
+4. Create a repo called `myflyway`, in the `gitbucket` container through the ui and check in all the files in `~/DevOps_In_DE/DBChanges_Flyway/gitbucket_repos/myflyway` to the repo.
     * Run the commands with `root:root` as username:password.
         ```sh
-        cd ./jenkins_mysql_flyway/flyway_repo
+        cd ./DBChanges_Flyway/gitbucket_repos/myflyway
         git init
         git add .
         git commit -m "first commit"
-        git remote add origin http://localhost:8082/git/root/flyway_repo.git
+        git remote add origin http://localhost:8082/git/root/myflyway.git
         git push -u origin main
         ```
     * ==short video (TBD)==
 
-5. Create a pipeline called `flyway_pipeline` in the `jenkins` container through the ui and have it connect to the repo, `flyway_repo`.
-    * The repo URL is `http://gitbucket:8080/git/root/flyway_repo.git`.
+5. Create a pipeline called `flyway_pipeline` in the `jenkins` container through the ui and have it connect to the repo, `myflyway`.
+    * The repo URL is `http://gitbucket:8080/git/root/myflyway.git`.
     * ==short video (TBD)==
 
 # Trigger (have services connected together)
-1. Move all the `*.sql` files in `~/DevOps_In_DE/jenkins_mysql_flyway/flyway_repo/sql_to_deploy` to `~/DevOps_In_DE/jenkins_mysql_flyway/flyway_repo/sql`.
+1. Move all the `*.sql` files in `~/DevOps_In_DE/DBChanges_Flyway/gitbucket_repos/myflyway/sql_to_deploy` to `~/DevOps_In_DE/DBChanges_Flyway/gitbucket_repos/myflyway/sql`.
     ```sh
     mv ./sql_to_deploy/* ./sql
     ```
@@ -84,16 +84,16 @@ The architecture diagram and everything uses Docker containers.
 # Clean up
 * Remove all the containers.
     ```sh
-    cd ./jenkins_mysql_flyway
+    cd ./DBChanges_Flyway
     docker compose -f docker-compose-db.yml -p db down
     docker compose -f docker-compose-jenkins.yml -p devops down
 
     docker network prune -f
     docker volume prune -f
     ```
-* Remove the local git repo (`flyway_repo`).
+* Remove the local git repo (`myflyway`).
     ```sh
-    cd ./jenkins_mysql_flyway/flyway_repo
+    cd ./DBChanges_Flyway/gitbucket_repos/myflyway
     rm -rf .git
     ```
 # Future works
