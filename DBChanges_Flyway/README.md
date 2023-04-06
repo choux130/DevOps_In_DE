@@ -58,7 +58,7 @@ The architecture diagram and everything uses Docker containers.
     * The repo URL is `http://gitbucket:8080/git/root/flyway_repo.git`.
     * ==short video (TBD)==
 
-# Trigger
+# Trigger (have services connected together)
 1. Move all the `*.sql` files in `~/DevOps_In_DE/jenkins_mysql_flyway/flyway_repo/sql_to_deploy` to `~/DevOps_In_DE/jenkins_mysql_flyway/flyway_repo/sql`.
     ```sh
     mv ./sql_to_deploy/* ./sql
